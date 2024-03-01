@@ -3,7 +3,7 @@ package com.hmdp.utils;
 import cn.hutool.core.util.StrUtil;
 
 /**
- * @author 虎哥
+ * 格式验证工具类
  */
 public class RegexUtils {
     /**

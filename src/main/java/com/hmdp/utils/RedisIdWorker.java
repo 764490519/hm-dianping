@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 
 
 /**
- * 使用Redis自增获取全局唯一id
+ * 使用Redis自增获取全局唯一id工具类
  */
 @Component
 public class RedisIdWorker {

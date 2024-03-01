@@ -9,6 +9,10 @@ import org.springframework.data.redis.core.script.RedisScript;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
+
+/**
+ * Redis分布式锁工具类
+ */
 public class SimpleRedisLock implements ILock{
 
     private String name;

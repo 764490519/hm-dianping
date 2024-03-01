@@ -10,6 +10,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.annotation.Resource;
 
+/**
+ * 登录拦截器
+ */
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
 

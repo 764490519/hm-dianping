@@ -1,5 +1,9 @@
 package com.hmdp.utils;
 
+
+/**
+ * 系统常量枚举类
+ */
 public class SystemConstants {
     public static final String IMAGE_UPLOAD_DIR = "D:\\Code\\IDEA\\Projects\\hm-dianping\\nginx-1.18.0\\html\\hmdp\\imgs";
     public static final String USER_NICK_NAME_PREFIX = "user_";

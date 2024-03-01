@@ -31,14 +31,7 @@ import java.util.concurrent.TimeUnit;
 
 import static cn.hutool.core.bean.BeanUtil.beanToMap;
 
-/**
- * <p>
- * 服务实现类
- * </p>
- *
- * @author 虎哥
- * @since 2021-12-22
- */
+
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
