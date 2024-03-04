@@ -2,6 +2,7 @@ package com.hmdp;
 
 import com.hmdp.entity.Shop;
 import com.hmdp.service.impl.ShopServiceImpl;
+import com.hmdp.utils.GoogleBloomFilter;
 import com.hmdp.utils.CacheClient;
 import com.hmdp.utils.RedisConstants;
 import com.hmdp.utils.RedisIdWorker;
@@ -125,5 +126,15 @@ class HmDianPingApplicationTests {
         kafkaTemplate.send("data_topic", JSONObject.toJSONString(map));
         kafkaTemplate.send("data_topic", JSONObject.toJSONString(map));
         Thread.sleep(10000);
+    }
+
+    @Resource
+    GoogleBloomFilter bloomFilter;
+
+    @Test
+    public void testBloomFilter(){
+        System.out.println(bloomFilter.mightContains(1L));
+        System.out.println(bloomFilter.mightContains(13L));
+        System.out.println(bloomFilter.mightContains(15L));
     }
 }

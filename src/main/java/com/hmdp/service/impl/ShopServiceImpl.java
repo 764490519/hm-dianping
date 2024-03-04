@@ -10,10 +10,7 @@ import com.hmdp.entity.Shop;
 import com.hmdp.mapper.ShopMapper;
 import com.hmdp.service.IShopService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.hmdp.utils.CacheClient;
-import com.hmdp.utils.RedisConstants;
-import com.hmdp.utils.RedisData;
-import com.hmdp.utils.SystemConstants;
+import com.hmdp.utils.*;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.GeoResult;
 import org.springframework.data.geo.GeoResults;
@@ -42,6 +39,10 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
     private CacheClient cacheClient;
 
 
+    @Resource
+    GoogleBloomFilter bloomFilter;
+
+
     @Override
     public Object queryById(Long id) {
         //缓存穿透
@@ -49,6 +50,11 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
 
         //互斥锁解决缓存击穿
 //        Shop shop = queryWithMutex(id);
+
+        //使用布隆过滤器解决缓存穿透
+        if(!bloomFilter.mightContains(id)){
+            return Result.fail("店铺不存在");
+        }
 
         //逻辑过期解决缓存击穿
         Shop shop = cacheClient.queryWithLogicalExpire(RedisConstants.CACHE_SHOP_KEY,id, Shop.class,this::getById,RedisConstants.CACHE_SHOP_TTL,TimeUnit.SECONDS);
@@ -237,6 +243,7 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
 //    }
 
 
+
     //更新商户
     @Override
     @Transactional
@@ -247,7 +254,6 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
         }
         //更新数据库
         updateById(shop);
-
         //删除缓存
         stringRedisTemplate.delete(RedisConstants.CACHE_SHOP_KEY + id);
 

@@ -34,7 +34,7 @@ public class SeckillHandler {
 
         //获取成功，更新数据库
         voucherOrderService.save(voucherOrder);
-        seckillVoucherService.update()
+        seckillVoucherService.update();
     }
 
 }

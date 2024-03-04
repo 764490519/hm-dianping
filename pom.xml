@@ -77,6 +77,14 @@
             <artifactId>hutool-all</artifactId>
             <version>5.7.17</version>
         </dependency>
+
+        <!--布隆过滤器-->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>30.0-jre</version>
+        </dependency>
+
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
