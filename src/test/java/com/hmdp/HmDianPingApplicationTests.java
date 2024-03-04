@@ -5,17 +5,17 @@ import com.hmdp.service.impl.ShopServiceImpl;
 import com.hmdp.utils.CacheClient;
 import com.hmdp.utils.RedisConstants;
 import com.hmdp.utils.RedisIdWorker;
+import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.geo.Point;
 import org.springframework.data.redis.connection.RedisGeoCommands;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.kafka.core.KafkaTemplate;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -109,5 +109,21 @@ class HmDianPingApplicationTests {
         //统计数量
         Long count = stringRedisTemplate.opsForHyperLogLog().size("hl2");
         System.out.println("count = " + count);
+    }
+
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+    @Test
+    public void testSend() throws InterruptedException {
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("userId", 1);
+        map.put("name", "Tom");
+
+        // 向kafka推送数据
+        kafkaTemplate.send("data_topic", JSONObject.toJSONString(map));
+        kafkaTemplate.send("data_topic", JSONObject.toJSONString(map));
+        kafkaTemplate.send("data_topic", JSONObject.toJSONString(map));
+        Thread.sleep(10000);
     }
 }
